@@ -2,7 +2,7 @@
 use app\models\Link;
 
 /** @var yii\web\View $this */
-/** @var Link $model */
+/** @var string $short */
 
 $this->title = 'Links';
 ?>
@@ -16,7 +16,7 @@ $this->title = 'Links';
         <div class="row">
             <div class="col-lg-12">
                 <div class="alert alert-primary" role="alert">
-                    http://<?= ($_SERVER['SERVER_NAME'] ?? '') . '/' .  $model->short ?>
+                    http://<?= ($_SERVER['SERVER_NAME'] ?? '') . '/' .  $short ?>
                 </div>
             </div>
         </div>

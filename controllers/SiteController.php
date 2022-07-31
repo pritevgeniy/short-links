@@ -2,15 +2,23 @@
 
 namespace app\controllers;
 
+use app\services\LinkService;
 use Yii;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use app\models\Link;
 use app\models\LinkForm;
 use yii\web\Response;
 
 class SiteController extends Controller
 {
+    private LinkService $service;
+    public function __construct($id, $module, LinkService $service, $config = [])
+    {
+        parent::__construct($id, $module, $config);
+
+        $this->service = $service;
+    }
+
     /**
      * @return string|\yii\web\Response
      * @throws \yii\base\ErrorException
@@ -35,13 +43,10 @@ class SiteController extends Controller
      */
     public function actionShow(string $short): string
     {
-        $model = Link::findOne(['short' => $short]);
-        if (!$model) {
-            throw new NotFoundHttpException();
-        }
+        $this->service->find($short);
 
         return $this->render('show', array(
-            'model' => $model
+            'short' => $short
         ));
     }
 
@@ -52,11 +57,8 @@ class SiteController extends Controller
      */
     public function actionRedirect(string $short): Response
     {
-        $model = Link::findOne(['short' => $short]);
-        if (!$model) {
-            throw new NotFoundHttpException();
-        }
+        $link = $this->service->find($short);
 
-        return $this->redirect($model->long);
+        return $this->redirect($link);
     }
 }

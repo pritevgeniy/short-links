@@ -38,6 +38,9 @@ class LinkForm extends Model
             throw new ErrorException('Error save');
         }
 
+        $cache = Yii::$app->cache;
+        $cache->set($model->short, $model->long, 3600);
+
         return $model;
     }
 }
